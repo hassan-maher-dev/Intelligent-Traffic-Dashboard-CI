@@ -6,6 +6,9 @@ pipeline {
         COLLECTOR_IMG = "traffic-collector"
         IMAGE_TAG = "${env.BUILD_ID}"
         GITOPS_REPO = "github.com/hassan-maher-dev/Intelligent-Traffic-gitops.git" 
+        
+        // The new line that will fix the BuildKit issue in DooD.
+        DOCKER_BUILDKIT = "0"
     }
 
     stages {

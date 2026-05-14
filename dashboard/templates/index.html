@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traffic Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+    body { font-family: 'Poppins', sans-serif; background: #0f172a; color: white; padding: 40px; }
+    h1 { text-align: center; color: #38bdf8; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden;}
+    th, td { padding: 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    th { background: #1e293b; }
+    .high { color: #ef4444; font-weight: bold; }
+    .medium { color: #f59e0b; font-weight: bold; }
+    .low { color: #10b981; font-weight: bold; }
+</style>
+</head>
+<body>
+    <h1>🚦 Intelligent Traffic Dashboard</h1>
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>Location</th>
+            <th>Congestion Level (%)</th>
+            <th>Status</th>
+        </tr>
+        {% for row in traffic_data %}
+            
+            <!-- Configure the variables based on the traffic load percentage -->
+            {% set status_class = 'low' %}
+            {% set status_text = 'Clear' %}
+            {% set bar_color = '#10b981' %}
+
+            {% if row.congestion > 75 %}
+                {% set status_class = 'high' %}
+                {% set status_text = 'High Traffic' %}
+                {% set bar_color = '#ef4444' %}
+            {% elif row.congestion > 40 %}
+                {% set status_class = 'medium' %}
+                {% set status_text = 'Moderate' %}
+                {% set bar_color = '#f59e0b' %}
+            {% endif %}
+
+            <tr>
+                <td>{{ row.timestamp }}</td>
+                <td>{{ row.location }}</td>
+                <td>
+                    <div style="background: #333; width: 100%; border-radius: 5px;">
+                        <div style="width: {{ row.congestion }}%; background: {{ bar_color }}; height: 10px; border-radius: 5px;"></div>
+                    </div>
+                    {{ row.congestion }}%
+                </td>
+                <td class="{{ status_class }}">
+                    {{ status_text }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <script>
+        // Refresh the page every 5 seconds to fetch new data.
+        setTimeout(() => { window.location.reload(); }, 5000);
+    </script>
+</body>
+</html>

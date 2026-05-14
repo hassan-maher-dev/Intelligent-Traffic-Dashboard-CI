@@ -137,7 +137,6 @@ async function updateDashboard() {
                 statusClass = 'text-red';
                 barColor = '#ef4444';
                 statusText = 'Critical';
-                showAlert(row.location, row.congestion); // Trigger Alert
             } else if (row.congestion > 50) {
                 statusClass = 'text-orange';
                 barColor = '#f59e0b';
